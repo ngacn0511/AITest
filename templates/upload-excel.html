@@ -1,0 +1,85 @@
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>Upload Excel File</title>
+    <link rel=“stylesheet” type=“text/css” href=“style.css”>
+</head>
+<body>
+    <h1>Upload Excel File</h1>
+    <!-- add a section for downloading templates -->
+    <h2>Download Templates</h2>
+
+     <!-- loop through all files and create links -->
+     {% for file in files %}
+        <a href="{{ url_for('download', filename=file) }}">{{ file }}</a><br>
+     {% endfor %}
+    <p>Enter values for ratio_work and ratio_check:</p>
+
+
+     <hr>
+    <form action="/read-excel" method="post" enctype="multipart/form-data" >
+        <table border=“1”>
+            <tr>
+                <td>
+                    <label for=“ratio_normal”>平时成绩比例:</label>
+                    <input type=“number” id=“ratio_normal” name=“ratio_normal” >
+                </td>
+                <td>
+                    <table border=“1”>
+                        <tr>
+                            <td>
+                                <label for=“ratio_work”>作业比例:</label>
+                            </td>
+                            <td><input type=“number” id=“ratio_work” name=“ratio_work”></td>
+                        </tr>
+                        <tr>
+                            <td><label for=“ratio_check”>考勤比例:</label>
+                            </td>
+                            <td><input type=“number” id=“ratio_check” name=“ratio_check”></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <table border=“1”>
+            <tr>
+                <td>
+                    <label for=“ratio_exam”>考试成绩比例:</label>
+                    <input type=“number” id=“ratio_exam” name=“ratio_exam” >
+                </td>
+            </tr>
+        </table>
+        <span id="error-message" style="display: none; color: red;"></span>
+        <label for="file">导入平时成绩:</label>
+        <input type="file" id="file" name="file" accept=".xlsx"><br>
+        <label for="file">导入考试成绩:</label>
+        <input type="file" id="file2" name="file2" accept=".xlsx"><br>
+        <input type="submit" id="submit" value="提交">
+    </form>
+    <script type=“text/javascript”>
+        function validateForm() {
+            // Get the input values
+            let ratio_normal = document.getElementById("ratio_normal").value;
+            let ratio_exam = document.getElementById("ratio_exam").value;
+
+            // Check if they add up to 100
+            if (parseInt(ratio_normal) + parseInt(ratio_exam) != 100) {
+              // If not, alert the user and prevent submission
+              alert("平时成绩比例和考试成绩比例之和必须等于100");
+              return false;
+            }
+          }
+
+        function checkRatio() {
+            // Get the input values
+            let ratio_normal = document.getElementById("ratio_normal").value;
+            let ratio_exam = document.getElementById("ratio_exam").value;
+
+            // Check if they add up to 100
+            if (parseInt(ratio_normal) + parseInt(ratio_exam) != 100) {
+              // If not, alert the user
+              alert("平时成绩比例和考试成绩比例之和必须等于100");
+            }
+        }
+    </script>
+</body>
+</html>
